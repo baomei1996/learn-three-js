@@ -86,13 +86,15 @@ export default function example() {
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    const clock = new THREE.Clock();
+    let oldTime = Date.now();
     function draw() {
-        // delta - draw 함수가 실행될때마다 실행의 간격을 나타냄
-        const delta = clock.getDelta();
+        // 코드를 읽어 내리면서 먼저 실행된 old time에 현재 시간을 뺀 값을 이용한다.
+        const newTime = Date.now();
+        const deltaTime = newTime - oldTime;
+        oldTime = newTime;
 
-        mesh.rotation.y += delta * 2;
-        mesh.position.y += delta * 3;
+        mesh.rotation.y += deltaTime * 0.005;
+        mesh.position.y += deltaTime * 0.001;
         if (mesh.position.y > 3) {
             mesh.position.y = 0;
         }
