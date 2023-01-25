@@ -17,11 +17,13 @@ export default function example() {
      * Scene
      */
     const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog("black", 3, 7);
 
     // (빛의 컬러, 빛의 강도)
-    const light = new THREE.DirectionalLight(0xffffff, 0.5);
-    light.position.z = 2;
+    const light = new THREE.DirectionalLight(0xffffff, 0.8);
     light.position.x = 1;
+    light.position.z = 5;
+    light.position.y = 3;
     scene.add(light);
     /**
      * Camera
@@ -35,9 +37,9 @@ export default function example() {
         100
     );
 
-    camera.position.z = 5;
-    camera.position.x = 1;
     camera.position.y = 2;
+    camera.position.z = 5;
+    camera.position.x = 2;
 
     camera.lookAt(0, 0, 0);
     camera.zoom = 0.5;
@@ -53,8 +55,15 @@ export default function example() {
         color: 0xff0000,
     });
 
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    const meshes = [];
+    let mesh;
+    for (let i = 0; i < 10; i++) {
+        mesh = new THREE.Mesh(geometry, material);
+        mesh.position.x = Math.random() * 5 - 2.5;
+        mesh.position.z = Math.random() * 5 - 2.5;
+        scene.add(mesh);
+        meshes.push(mesh);
+    }
 
     function draw() {
         renderer.render(scene, camera);
