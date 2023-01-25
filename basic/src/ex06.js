@@ -88,14 +88,14 @@ export default function example() {
 
     const clock = new THREE.Clock();
     function draw() {
-        // console.log(clock.getElapsedTime());
-        const time = clock.getElapsedTime();
-        // 각도는 radian 을 이용
-        // 360도는 2파이
+        // delta - draw 함수가 실행될때마다 실행의 간격을 나타냄
+        const delta = clock.getDelta();
 
-        // mesh.rotation.y += 0.1;
-        // mesh.rotation.y += THREE.MathUtils.degToRad(1);
-        mesh.rotation.y = THREE.MathUtils.degToRad(time);
+        mesh.rotation.y += delta * 2;
+        mesh.position.y += delta * 3;
+        if (mesh.position.y > 3) {
+            mesh.position.y = 0;
+        }
         renderer.render(scene, camera);
 
         // requestAnimationFrame(draw);
