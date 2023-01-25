@@ -65,8 +65,16 @@ export default function example() {
         meshes.push(mesh);
     }
 
+    const clock = new THREE.Clock();
     function draw() {
+        const delta = clock.getDelta();
+        meshes.forEach((item) => {
+            item.rotation.y += delta * 2;
+        });
+
         renderer.render(scene, camera);
+
+        renderer.setAnimationLoop(draw);
     }
 
     function setSize() {
