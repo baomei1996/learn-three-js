@@ -44,6 +44,9 @@ export default function example() {
 
     // Dat GUI
     const gui = new dat.GUI();
+    // 조정하고자 하는 object, 조정할 속성, 최대값, 최소값, step
+    gui.add(mesh.position, "y", -5, 5, 0.01).name("mesh y 위치");
+    gui.add(camera.position, "x", -10, 10, 0.01).name("카메라 x 위치");
 
     // 그리기
     const clock = new THREE.Clock();
@@ -52,6 +55,8 @@ export default function example() {
         const time = clock.getElapsedTime();
 
         mesh.rotation.y = time;
+
+        camera.lookAt(mesh.position);
 
         renderer.render(scene, camera);
         renderer.setAnimationLoop(draw);
