@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import dat from "dat.gui";
 
 // ----- 주제: GUI 컨트롤 사용하기
 
@@ -40,6 +41,9 @@ export default function example() {
     });
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
+
+    // Dat GUI
+    const gui = new dat.GUI();
 
     // 그리기
     const clock = new THREE.Clock();
