@@ -39,9 +39,11 @@ export default function example() {
     scene.add(directionalLight);
 
     // Mesh
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const geometry = new THREE.BoxGeometry(1, 1, 1, 16, 16, 16);
     const material = new THREE.MeshStandardMaterial({
         color: "hotpink",
+        side: THREE.DoubleSide,
+        wireframe: true,
     });
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
