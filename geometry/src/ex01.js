@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 // ----- 주제: Geometry 기본
 
@@ -24,6 +25,9 @@ export default function example() {
     );
     camera.position.z = 4;
     scene.add(camera);
+
+    // Controls
+    const controls = new OrbitControls(camera, renderer.domElement);
 
     // Light
     const ambientLight = new THREE.AmbientLight("white", 0.5);
