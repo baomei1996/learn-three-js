@@ -34,7 +34,7 @@ export default function example() {
     scene.add(ambientLight);
 
     //DirectionalLight ==> 태양광 같은 속성이 있음
-    const light = new THREE.DirectionalLight("white", 0.5);
+    const light = new THREE.DirectionalLight("red", 0.5);
     light.position.y = 2;
     scene.add(light);
 
@@ -53,7 +53,7 @@ export default function example() {
         color: "white",
     });
     const material2 = new THREE.MeshStandardMaterial({
-        color: "royalblue",
+        color: "gold",
     });
     const material3 = new THREE.MeshStandardMaterial({
         color: "gold",
@@ -83,7 +83,10 @@ export default function example() {
     const clock = new THREE.Clock();
 
     function draw() {
-        const delta = clock.getDelta();
+        const time = clock.getElapsedTime();
+
+        light.position.x = Math.cos(time * 5);
+        light.position.z = Math.sin(time * 5);
 
         renderer.render(scene, camera);
         renderer.setAnimationLoop(draw);
