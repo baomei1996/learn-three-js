@@ -66,23 +66,25 @@ export default function example() {
     function draw() {
         // const delta = clock.getDelta();
         const time = clock.getElapsedTime();
-        boxMesh.position.y = Math.sin(time) * 2;
-        torusMesh.position.y = Math.cos(time) * 2;
+        // boxMesh.position.y = Math.sin(time) * 2;
+        // torusMesh.position.y = Math.cos(time) * 2;
 
-        boxMesh.material.color.set("plum");
-        torusMesh.material.color.set("lime");
+        // boxMesh.material.color.set("plum");
+        // torusMesh.material.color.set("lime");
 
         renderer.render(scene, camera);
         renderer.setAnimationLoop(draw);
     }
 
     function checkIntersects() {
+        if (mouseMoved) return;
         raycaster.setFromCamera(mouse, camera);
 
         const intersects = raycaster.intersectObjects(meshes);
 
         for (const { object } of intersects) {
             console.log(object.name);
+            object.material.color.set("red");
             // for of문을 사용하는 경우 순회하면서 특정 작업을 수행하기 좋음
             // 겹칠경우 하나만 감지하고 넘어가기 위해서 break문을 넣어줌.
             break;
@@ -103,6 +105,29 @@ export default function example() {
         mouse.y = -((e.clientY / canvas.clientHeight) * 2 - 1);
 
         checkIntersects();
+    });
+
+    let mouseMoved;
+    let clickStartX;
+    let clickStartY;
+    let clickStartTime;
+
+    canvas.addEventListener("mousedown", (e) => {
+        clickStartX = e.clientX;
+        clickStartY = e.clientY;
+        clickStartTime = Date.now();
+    });
+
+    canvas.addEventListener("mouseup", (e) => {
+        const xGap = Math.abs(e.clientX - clickStartX);
+        const yGap = Math.abs(e.client - e.clickStartY);
+        const timeGap = Date.now() - clickStartTime;
+
+        if (xGap > 5 || yGap > 5 || timeGap > 500) {
+            mouseMoved = true;
+        } else {
+            mouseMoved = false;
+        }
     });
 
     draw();
