@@ -53,6 +53,11 @@ export default function example() {
     const cannonWorld = new CANNON.World();
     cannonWorld.gravity.set(0, -10, 0);
 
+    // 성능을 위한 설정
+    cannonWorld.allowSleep = true; // body가 엄청 느려지면, 테스트 안함
+    // 퀄리티를 저하시키지 않으면서 성능을 내어 기본적으로 많이 설정함
+    cannonWorld.broadphase = new CANNON.SAPBroadphase(cannonWorld);
+
     // Contact Material
     const defaultMaterial = new CANNON.Material("default");
     const defaultContactMaterial = new CANNON.ContactMaterial(
