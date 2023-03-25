@@ -21,7 +21,30 @@ export class Domino {
             this.modelMesh = glb.scene.children[0];
             this.modelMesh.castShadow = true;
             this.modelMesh.position.set(this.x, this.y, this.z);
+            this.rotationY = Math.PI / 1;
+
             this.scene.add(this.modelMesh);
+
+            this.setCannonBody();
         });
+    }
+
+    setCannonBody() {
+        const shape = new Box(
+            new Vec3(this.width / 2, this.height / 2, this.depth / 2)
+        );
+
+        this.cannonBody = new Body({
+            mass: 1,
+            position: new Vec3(this.x, this.y, this.z),
+            shape,
+        });
+
+        this.cannonBody.quaternion.setFromAxisAngle(
+            new Vec3(0, 1, 0),
+            this.rotationY
+        );
+
+        this.cannonWorld.addBody(this.cannonBody);
     }
 }
