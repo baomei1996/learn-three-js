@@ -68,8 +68,8 @@ export default function example() {
         defaultMaterial,
         defaultMaterial,
         {
-            friction: 0.5,
-            restitution: 0.3,
+            friction: 0.01,
+            restitution: 0.9,
         }
     );
 
@@ -105,11 +105,11 @@ export default function example() {
     let domino;
     for (let i = -3; i < 17; i++) {
         domino = new Domino({
+            index: i,
             scene,
             cannonWorld,
             gltfLoader,
             z: -i * 0.8,
-            y: 10,
         });
         dominos.push(domino);
     }
@@ -143,9 +143,37 @@ export default function example() {
         renderer.render(scene, camera);
     }
 
+    // Raycaster
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    function checkIntersects() {
+        raycaster.setFromCamera(mouse, camera);
+
+        const intersects = raycaster.intersectObjects(scene.children);
+
+        for (const item of intersects) {
+            if (item.object.cannonBody) {
+                item.object.cannonBody.applyForce(
+                    new CANNON.Vec3(0, 0, -100),
+                    new CANNON.Vec3(0, 0, 0)
+                );
+
+                break;
+            }
+        }
+    }
+
     // 이벤트
     window.addEventListener("resize", setSize);
-    canvas.addEventListener("click", () => {});
+    canvas.addEventListener("click", (e) => {
+        if (preventDragClick.mouseMoved) return;
+
+        mouse.x = (e.clientX / canvas.clientWidth) * 2 - 1;
+        mouse.y = -((e.clientY / canvas.clientHeight) * 2 - 1);
+
+        checkIntersects();
+    });
 
     const preventDragClick = new PreventDragClick(canvas);
 

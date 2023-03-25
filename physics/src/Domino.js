@@ -3,6 +3,7 @@ import { Body, Box, Vec3 } from "cannon-es";
 
 export class Domino {
     constructor(info) {
+        this.index = info.index;
         this.scene = info.scene;
         this.cannonWorld = info.cannonWorld;
         this.z = info.z;
@@ -19,6 +20,7 @@ export class Domino {
 
         info.gltfLoader.load("./models/domino.glb", (glb) => {
             this.modelMesh = glb.scene.children[0];
+            this.modelMesh.name = `${this.index}번 도미노`;
             this.modelMesh.castShadow = true;
             this.modelMesh.position.set(this.x, this.y, this.z);
             this.rotationY = Math.PI / 1;
@@ -44,6 +46,8 @@ export class Domino {
             new Vec3(0, 1, 0),
             this.rotationY
         );
+
+        this.modelMesh.cannonBody = this.cannonBody;
 
         this.cannonWorld.addBody(this.cannonBody);
     }
