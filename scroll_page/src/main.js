@@ -1,5 +1,7 @@
 import * as THREE from "three";
-import { House } from "./house";
+import { House } from "./House";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import gsap from "gsap";
 
 // ----- 주제: 스크롤에 따라 움직이는 3D 페이지
 
@@ -11,6 +13,8 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 // Scene
 const scene = new THREE.Scene();
@@ -23,8 +27,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 );
-camera.position.y = 1.5;
-camera.position.z = 4;
+camera.position.set(-5, 2, 25);
 scene.add(camera);
 
 // Light
@@ -39,19 +42,68 @@ spotLight.shadow.camera.near = 1;
 spotLight.shadow.camera.far = 200;
 scene.add(spotLight);
 
+const gltfLoader = new GLTFLoader();
+
 // Mesh
 const floorMesh = new THREE.Mesh(
     new THREE.PlaneGeometry(100, 100),
     new THREE.MeshStandardMaterial({ color: "white" })
 );
 floorMesh.rotation.x = -Math.PI / 2;
+floorMesh.receiveShadow = true;
 scene.add(floorMesh);
 
 const houses = [];
-new House({
-    x: 0,
-    z: 0,
-});
+houses.push(
+    new House({
+        gltfLoader,
+        scene,
+        modelSrc: "/models/house.glb",
+        x: 0,
+        z: 0,
+        height: 2,
+    })
+);
+houses.push(
+    new House({
+        gltfLoader,
+        scene,
+        modelSrc: "/models/house.glb",
+        x: -5,
+        z: 20,
+        height: 2,
+    })
+);
+houses.push(
+    new House({
+        gltfLoader,
+        scene,
+        modelSrc: "/models/house.glb",
+        x: 7,
+        z: 10,
+        height: 2,
+    })
+);
+houses.push(
+    new House({
+        gltfLoader,
+        scene,
+        modelSrc: "/models/house.glb",
+        x: -10,
+        z: 0,
+        height: 2,
+    })
+);
+houses.push(
+    new House({
+        gltfLoader,
+        scene,
+        modelSrc: "/models/house.glb",
+        x: -5,
+        z: 20,
+        height: 2,
+    })
+);
 
 // 그리기
 const clock = new THREE.Clock();
@@ -62,6 +114,19 @@ function draw() {
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);
 }
+let currentSection = 0;
+function setSection() {
+    const newSection = Math.round(window.scrollY / window.innerHeight);
+
+    if (currentSection !== newSection) {
+        gsap.to(camera.position, {
+            duration: 1,
+            x: houses[currentSection].x,
+            z: houses[currentSection].z + 5,
+        });
+        currentSection = newSection;
+    }
+}
 
 function setSize() {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -71,6 +136,7 @@ function setSize() {
 }
 
 // 이벤트
+window.addEventListener("scroll", setSection);
 window.addEventListener("resize", setSize);
 
 draw();

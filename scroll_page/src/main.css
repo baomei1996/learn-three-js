@@ -12,7 +12,6 @@ body {
 }
 .section {
     box-sizing: border-box;
-    border-top: 2px solid red;
     padding: 5rem;
     height: 100vh;
 }
