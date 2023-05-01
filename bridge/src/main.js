@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { cm1, cm2 } from "./common";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { Pillar } from "./Pillar";
 
 // ----- 주제: The Bridge 게임 만들기
 
@@ -65,7 +66,24 @@ cm1.scene.add(spotLight1, spotLight2.spotLight3, spotLight4);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
+// 물체 만들기
+const glassUnitSize = 1.2;
+
 // 바닥
+
+// 기둥
+const pillar1 = new Pillar({
+    name: "pillar",
+    x: 0,
+    y: 5,
+    z: -glassUnitSize * 12 - glassUnitSize / 2,
+});
+const pillar2 = new Pillar({
+    name: "pillar",
+    x: 0,
+    y: 5,
+    z: glassUnitSize * 12 + glassUnitSize / 2,
+});
 
 // 그리기
 const clock = new THREE.Clock();
