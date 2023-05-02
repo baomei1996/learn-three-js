@@ -3,7 +3,6 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 // Canvas에 담아줄 정해진 객체
 export const cm1 = {
-    canvas: document.querySelector("#three-canvas"),
     scene: new Scene(),
     gltfLoader: new GLTFLoader(),
     mixer: undefined,

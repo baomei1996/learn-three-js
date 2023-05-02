@@ -13,8 +13,9 @@ import { Plaryer } from "./Plaryer";
 // Scene은 Commonjs에서 생성
 
 // Renderer
+const canvas = document.querySelector("#three-canvas");
 const renderer = new THREE.WebGLRenderer({
-    canvas: cm1.canvas,
+    canvas: canvas,
     antialias: true,
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -168,6 +169,27 @@ for (let i = 0; i < numberOfGlass; i++) {
     });
 }
 
+// Raycaster
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+function checkIntersects() {
+    raycaster.setFromCamera(mouse, camera);
+
+    const intersects = raycaster.intersectObjects(cm1.scene.children);
+
+    for (const item of intersects) {
+        checkClickedObject(item.object.name);
+        break;
+    }
+}
+
+function checkClickedObject(objectName) {
+    if (objectName.indexOf("glass") >= 0) {
+        // 유리판을 클릭했을 때
+    }
+}
+
 // 플레이어
 const player = new Plaryer({
     name: "player",
@@ -202,5 +224,10 @@ function setSize() {
 
 // 이벤트
 window.addEventListener("resize", setSize);
+canvas.addEventListener("click", (e) => {
+    mouse.x = (e.clientX / canvas.clientWidth) * 2 - 1;
+    mouse.y = -((e.clientY / canvas.clientHeight) * 2 - 1);
+    checkIntersects();
+});
 
 draw();
