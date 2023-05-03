@@ -8,6 +8,7 @@ import { Bar } from "./Bar";
 import { SideLight } from "./SideLight";
 import { Glass } from "./Glass";
 import { Plaryer } from "./Plaryer";
+import gsap from "gsap";
 
 // ----- 주제: The Bridge 게임 만들기
 
@@ -238,6 +239,17 @@ function checkClickedObject(mesh) {
         // 유리판을 클릭했을 때
         if (mesh.step - 1 === cm2.step) {
             cm2.step++;
+
+            gsap.to(player.cannonBody.position, {
+                duration: 1,
+                x: mesh.position.x,
+                z: glassZ[cm2.step - 1],
+            });
+
+            gsap.to(player.cannonBody.position, {
+                duration: 0.4,
+                y: 14,
+            });
         }
     }
 }
