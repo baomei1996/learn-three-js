@@ -16,6 +16,7 @@ export const cm1 = {
 };
 
 export const cm2 = {
+    step: 0,
     backgroundColor: "#321321",
     lightColor: "#ffe9ac",
     floorColor: "#111",

@@ -177,6 +177,12 @@ for (let i = 0; i < 49; i++) {
 // 유리판
 let glassTypeNumber = 0;
 let glassTypes = [];
+const glassZ = [];
+
+for (let i = 0; i < numberOfGlass; i++) {
+    glassZ.push(-(i * glassUnitSize * 2 - glassUnitSize * 9));
+}
+
 for (let i = 0; i < numberOfGlass; i++) {
     glassTypeNumber = Math.round(Math.random()); // 0, 1 만 나오도록
 
@@ -190,19 +196,21 @@ for (let i = 0; i < numberOfGlass; i++) {
     }
 
     const glass1 = new Glass({
+        step: i + 1,
         name: `glass-${glassTypes[0]}`,
         x: -1,
         y: 10.5,
-        z: i * glassUnitSize * 2 - glassUnitSize * 9,
+        z: glassZ[i],
         type: glassTypes[0],
         cannonMaterial: cm1.glassMaterial,
     });
 
     const glass2 = new Glass({
+        step: i + 1,
         name: `glass-${glassTypes[1]}`,
         x: 1,
         y: 10.5,
-        z: i * glassUnitSize * 2 - glassUnitSize * 9,
+        z: glassZ[i],
         type: glassTypes[1],
         cannonMaterial: cm1.glassMaterial,
     });
@@ -220,14 +228,17 @@ function checkIntersects() {
     const intersects = raycaster.intersectObjects(cm1.scene.children);
 
     for (const item of intersects) {
-        checkClickedObject(item.object.name);
+        checkClickedObject(item.object);
         break;
     }
 }
 
-function checkClickedObject(objectName) {
-    if (objectName.indexOf("glass") >= 0) {
+function checkClickedObject(mesh) {
+    if (mesh.name.indexOf("glass") >= 0) {
         // 유리판을 클릭했을 때
+        if (mesh.step - 1 === cm2.step) {
+            cm2.step++;
+        }
     }
 }
 
@@ -239,6 +250,7 @@ const player = new Plaryer({
     z: 13,
     rotationY: Math.PI,
     cannonMaterial: cm1.playerMaterial,
+    mass: 30,
 });
 
 objects.push(player);
@@ -255,12 +267,13 @@ function draw() {
 
     cm1.world.step(1 / 60, delta, 3);
     objects.forEach((item) => {
-        try {
-            if (item.cannonBody) {
-                console.log(item.mesh.position);
+        if (item.cannonBody) {
+            item.mesh.position.copy(item.cannonBody.position);
+            item.mesh.quaternion.copy(item.cannonBody.quaternion);
+
+            if (item.mesh.name === "player") {
+                item.mesh.position.y += 0.15;
             }
-        } catch (err) {
-            console.error(item);
         }
     });
 

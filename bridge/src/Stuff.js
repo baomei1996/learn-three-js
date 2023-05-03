@@ -12,7 +12,7 @@ export class Stuff {
         this.rotationX = info.rotationX || 0;
         this.rotationZ = info.rotationZ || 0;
 
-        this.mass = info.mass || 1;
+        this.mass = info.mass || 0;
         this.cannonMaterial = info.cannonMaterial || cm1.defaultMaterial;
     }
 
@@ -29,6 +29,11 @@ export class Stuff {
             shape,
             material,
         });
+
+        this.cannonBody.quaternion.setFromAxisAngle(
+            new Vec3(0, 1, 0),
+            this.rotationY
+        );
 
         cm1.world.addBody(this.cannonBody);
     }

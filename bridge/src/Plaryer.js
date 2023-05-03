@@ -18,6 +18,7 @@ export class Plaryer extends Stuff {
                 this.rotationY,
                 this.rotationZ
             );
+            this.mesh.name = this.name;
             this.mesh.castShadow = true;
             cm1.scene.add(this.mesh);
 
