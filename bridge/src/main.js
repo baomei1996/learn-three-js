@@ -113,6 +113,7 @@ cm1.world.addContactMaterial(playerGlassContactMaterial);
 // 물체 만들기
 const glassUnitSize = 1.2;
 const numberOfGlass = 10; // 유리판 개수
+const objects = [];
 
 // 바닥
 const floor = new Floor({
@@ -132,6 +133,7 @@ const pillar2 = new Pillar({
     y: 5.5,
     z: glassUnitSize * 12 + glassUnitSize / 2,
 });
+objects.push(pillar1, pillar2);
 
 // 바
 const bar1 = new Bar({
@@ -193,6 +195,7 @@ for (let i = 0; i < numberOfGlass; i++) {
         y: 10.5,
         z: i * glassUnitSize * 2 - glassUnitSize * 9,
         type: glassTypes[0],
+        cannonMaterial: cm1.glassMaterial,
     });
 
     const glass2 = new Glass({
@@ -201,7 +204,10 @@ for (let i = 0; i < numberOfGlass; i++) {
         y: 10.5,
         z: i * glassUnitSize * 2 - glassUnitSize * 9,
         type: glassTypes[1],
+        cannonMaterial: cm1.glassMaterial,
     });
+
+    objects.push(glass1, glass2);
 }
 
 // Raycaster
@@ -232,7 +238,10 @@ const player = new Plaryer({
     y: 10.9,
     z: 13,
     rotationY: Math.PI,
+    cannonMaterial: cm1.playerMaterial,
 });
+
+objects.push(player);
 
 // 그리기
 const clock = new THREE.Clock();
@@ -243,6 +252,17 @@ function draw() {
     if (cm1.mixer) {
         cm1.mixer.update(delta);
     }
+
+    cm1.world.step(1 / 60, delta, 3);
+    objects.forEach((item) => {
+        try {
+            if (item.cannonBody) {
+                console.log(item.mesh.position);
+            }
+        } catch (err) {
+            console.error(item);
+        }
+    });
 
     controls.update();
 

@@ -6,31 +6,31 @@ export class Plaryer extends Stuff {
     constructor(info) {
         super(info);
 
+        this.width = 0.5;
+        this.height = 0.5;
+        this.depth = 0.5;
+
         cm1.gltfLoader.load("/models/ilbuni.glb", (glb) => {
-            this.modelMesh = glb.scene.children[0];
-            this.modelMesh.position.set(this.x, this.y, this.z);
-            this.modelMesh.rotation.set(
+            this.mesh = glb.scene.children[0];
+            this.mesh.position.set(this.x, this.y, this.z);
+            this.mesh.rotation.set(
                 this.rotationX,
                 this.rotationY,
                 this.rotationZ
             );
-            this.modelMesh.castShadow = true;
-            cm1.scene.add(this.modelMesh);
+            this.mesh.castShadow = true;
+            cm1.scene.add(this.mesh);
 
-            this.modelMesh.animations = glb.animations;
-            cm1.mixer = new AnimationMixer(this.modelMesh);
+            this.mesh.animations = glb.animations;
+            cm1.mixer = new AnimationMixer(this.mesh);
             this.actions = [];
-            this.actions[0] = cm1.mixer.clipAction(
-                this.modelMesh.animations[0]
-            ); // default
-            this.actions[1] = cm1.mixer.clipAction(
-                this.modelMesh.animations[1]
-            ); // fall
-            this.actions[2] = cm1.mixer.clipAction(
-                this.modelMesh.animations[2]
-            ); // jump
+            this.actions[0] = cm1.mixer.clipAction(this.mesh.animations[0]); // default
+            this.actions[1] = cm1.mixer.clipAction(this.mesh.animations[1]); // fall
+            this.actions[2] = cm1.mixer.clipAction(this.mesh.animations[2]); // jump
 
             this.actions[0].play();
+
+            this.setCannonBody();
         });
     }
 }
