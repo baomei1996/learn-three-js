@@ -1,4 +1,4 @@
-import { geo, mat, cm1 } from "./common";
+import { geo, mat, cm1, cm2 } from "./common";
 import { Mesh } from "three";
 
 export class SideLight {
@@ -16,5 +16,9 @@ export class SideLight {
         this.mesh.position.set(this.x, this.y, this.z);
 
         container.add(this.mesh);
+    }
+
+    turnOff() {
+        this.mesh.material.color.set(cm2.lightOffColor);
     }
 }
