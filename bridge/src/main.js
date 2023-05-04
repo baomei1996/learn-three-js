@@ -243,12 +243,16 @@ function checkClickedObject(mesh) {
 
         if (mesh.step - 1 === cm2.step) {
             jumping = true;
+            player.actions[0].stop();
+            player.actions[2].play();
             cm2.step++;
 
             switch (mesh.type) {
                 case "normal":
                     setTimeout(() => {
                         fail = true;
+                        player.actions[2].stop();
+                        player.actions[1].play();
                     }, 700);
                     break;
                 case "strong":
@@ -257,6 +261,10 @@ function checkClickedObject(mesh) {
 
             setTimeout(() => {
                 jumping = false;
+                if (!fail) {
+                    player.actions[2].stop();
+                    player.actions[0].play();
+                }
             }, 1000);
 
             gsap.to(player.cannonBody.position, {
