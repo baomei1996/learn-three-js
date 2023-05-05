@@ -9,6 +9,7 @@ import { SideLight } from "./SideLight";
 import { Glass } from "./Glass";
 import { Plaryer } from "./Plaryer";
 import gsap from "gsap";
+import { PreventDragClick } from "./PreventDragClick";
 
 // ----- 주제: The Bridge 게임 만들기
 
@@ -381,8 +382,11 @@ function setSize() {
 }
 
 // 이벤트
+const preventDragClick = new PreventDragClick(canvas);
 window.addEventListener("resize", setSize);
 canvas.addEventListener("click", (e) => {
+    if (preventDragClick.mouseMoved) return;
+
     mouse.x = (e.clientX / canvas.clientWidth) * 2 - 1;
     mouse.y = -((e.clientY / canvas.clientHeight) * 2 - 1);
     checkIntersects();
