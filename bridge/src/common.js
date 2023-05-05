@@ -50,3 +50,13 @@ export const mat = {
         opacity: 0.2,
     }),
 };
+
+const normalSound = new Audio();
+normalSound.src = "/sounds/Crash.mp3";
+const strongSound = new Audio();
+strongSound.src = "/sounds/Wood Hit Metal Crash.mp3";
+
+export const sounds = {
+    normal: normalSound,
+    strong: strongSound,
+};

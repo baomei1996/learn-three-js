@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
-import { cm1, cm2 } from "./common";
+import { cm1, cm2, sounds } from "./common";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Pillar } from "./Pillar";
 import { Floor } from "./Floor";
