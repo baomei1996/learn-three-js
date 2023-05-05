@@ -11,6 +11,13 @@ export class Plaryer extends Stuff {
         this.depth = 0.5;
 
         cm1.gltfLoader.load("/models/ilbuni.glb", (glb) => {
+            // shadow
+            glb.scene.traverse((child) => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                }
+            });
+
             this.mesh = glb.scene.children[0];
             this.mesh.position.set(this.x, this.y, this.z);
             this.mesh.rotation.set(
