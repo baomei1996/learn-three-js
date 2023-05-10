@@ -2,9 +2,11 @@ body {
     margin: 0;
 }
 #three-canvas {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
+    z-index: -1;
+    background-color: gray;
 }
 li {
     list-style: none;
