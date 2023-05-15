@@ -11,7 +11,7 @@ export class CreateScene {
         const near = info.near || 0.1;
         const far = info.far || 200;
         const aspect = rect.width / rect.height;
-        const cameraPostion = info.cameraPosition || { x: 0, y: 0 };
+        const cameraPostion = info.cameraPosition || { x: 0, y: 0, z: 3 };
 
         // scene
         this.scene = new Scene();
@@ -19,9 +19,9 @@ export class CreateScene {
 
         //camera
         this.camera = new PerspectiveCamera(fov, aspect, near, far);
-        this.camera.position, (x = cameraPostion.x);
-        this.camera.position, (x = cameraPostion.u);
-        this.camera.position, (x = cameraPostion.z);
+        this.camera.position.x = cameraPostion.x;
+        this.camera.position.y = cameraPostion.y;
+        this.camera.position.z = cameraPostion.z;
 
         this.scene.add(this.camera);
     }
