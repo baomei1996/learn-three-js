@@ -24,5 +24,37 @@ export class CreateScene {
         this.camera.position.z = cameraPostion.z;
 
         this.scene.add(this.camera);
+
+        this.meshes = [];
+    }
+
+    set(func) {
+        func();
+    }
+
+    render() {
+        const renderer = this.renderer;
+        const rect = this.elem.getBoundingClientRect();
+
+        // 영역이 화면에 안보인다면 함수 종료
+        if (
+            rect.bottom < 0 ||
+            this.top > renderer.domElement.clientHeight ||
+            rect.left > renderer.domElement.clientWidth ||
+            rect.right < 0
+        ) {
+            return;
+        }
+
+        this.camera.aspect = rect.width / rect.height;
+        this.camera.updateProjectionMatrix = true;
+
+        const canvasBottom = renderer.domElement.clientHeight - rect.bottom;
+
+        renderer.setScissor(rect.left, canvasBottom, rect.width, rect.height);
+        renderer.setViewport(rect.left, canvasBottom, rect.width, rect.height);
+        renderer.setScissorTest(true);
+
+        renderer.render(this.scene, this.camera);
     }
 }
